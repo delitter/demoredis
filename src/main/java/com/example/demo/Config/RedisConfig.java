@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,22 +22,14 @@ import java.util.List;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
-    @Value("${spring.redis.host}")
-    private String host;
-
-    @Value("${spring.redis.port}")
-    private int port;
-
-    @Value("${spring.redis.timeout}")
-    private int timeout;
 
     //缓存管理器
     @Bean
     @SuppressWarnings("rawtypes")//抑制单类型警告
-    public CacheManager cacheManager(RedisTemplate redisTemplate){
-        RedisCacheManager cacheManager = new RedisCacheManager.create(redisTemplate);
-        //设置缓存过期时间
-        cacheManager.setDefaultExpiration(10000);
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory){
+        RedisCacheManager cacheManager = RedisCacheManager.create(connectionFactory);
+        //设置缓存过期时间，springboot2把RedisCacheManager的构造函数取消了，设置缓存过期时间也取消了
+        //cacheManager.setDefaultExpiration(10000);
         return cacheManager;
     }
 
