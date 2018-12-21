@@ -25,5 +25,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findAllByNameContaining(String name);
 
-    Optional<User> updateById(@Param("id") int id, @Param("name") String name);
+    @Query("update User u set u.name=?2 where u.id=?1")
+    void updateById(@Param("id") int id, @Param("name") String name);
 }

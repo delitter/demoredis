@@ -18,5 +18,5 @@ public interface UserService {
     List<User> findByNameLike(String name);//支持模糊查询
     List<User> findByNameContaining(String name);
     User findByTemplate(String name, int age);
-    User updateById(int id, String name);
+    void updateById(int id, String name);
 }

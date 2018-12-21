@@ -22,12 +22,12 @@ public class UserController {
     }
 
     @Autowired
-    RedisTemplate<String, User> redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
     @PostMapping("/add")
     public ResponseEntity<User> add(@RequestBody User user){
         user.setCreateDate(new Date());
-        redisTemplate.opsForValue().set("add", user);
+        redisTemplate.opsForValue().set("add", user.getName());
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
     }
 
@@ -79,7 +79,8 @@ public class UserController {
     }
 
     @PostMapping("/updateById")
-    public ResponseEntity<User> updateById(@RequestParam int id, @RequestParam String name){
-        return new ResponseEntity<>(userService.updateById(id, name), HttpStatus.OK);
+    public ResponseEntity<String> updateById(@RequestParam int id, @RequestParam String name){
+        userService.updateById(id, name);
+        return new ResponseEntity<>("success!", HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,7 +75,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateById(int id, String name){
-        return userRepository.updateById(id, name).get();
+    public void updateById(int id, String name){
+        userRepository.updateById(id, name);
     }
+
+
+
 }
